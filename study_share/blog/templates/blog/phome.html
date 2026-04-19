@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>MkbiBlog</title>
+</head>
+<body class="detail-body-background">
+    <!-- 导航栏（复用首页结构） -->
+    <header class="site-header">
+        <div class="font-blog">MkbiBlog</div>
+        <nav class="nav-desktop">
+            <a href="{% url 'blog_home' %}" class="nav-link">主页</a>
+            <a href="{% url 'phome'%}" class="nav-link">博客</a>
+            <a href="{% url 'archive'%}" class="nav-link">归档</a>
+            <a href="{% url 'links'%}" class="nav-link">友联</a>
+            <a href="{% url 'message'%}" class="nav-link">留言</a>
+            <a href="{% url 'about'%}" class="nav-link">关于</a>
+            <a href="{% url 'blog_home' %}" class="nav-link">开往</a>
+        </nav>
+    </header>
+        <div class="main-container">
+            <div class="left-column">
+                <div class="article-card">
+                    <div class="card-photo"></div>
+                    <div class="first-cardtext">日常</div>
+                </div>
+            {% for post in posts %}
+                <a href="{% url 'post_detail' post.id %}" class="article-card-link">
+                    <div class="article-card">
+                        <div class="photo">
+                            {% if post.photo %}
+                                <img src="{{ post.photo.url }}" alt="{{ post.title }}" 
+                                     style="width:230px;height:180px;object-fit:cover;border-radius:8px 0 0 8px;">
+                            {% else %}
+                                <span style="font-size:24px;">📝</span> <!-- 无图占位 -->
+                            {% endif %}
+                        </div>
+                        <div class="card-link">
+                            <!-- 第一行：分类+日期（带图标） -->
+                            <div class="card-meta-top">
+                                <span class="card-category">
+                                    <i class="fa fa-folder-open icon-category"></i> <!-- 分类 --> {{ post.category|default:"未分类" }}
+                                </span>
+                                <span class="card-time">
+                                    <i class="fa fa-calendar icon-time"></i> <!-- 日期 --> {{ post.publish_time|date:"Y年m月d日 H:i" }}
+                                </span>
+                            </div>
+                            <!-- 第二行：标题 -->
+                            <h3 class="card-title">{{ post.title }}</h3>
+                            <!-- 第三行：摘要 -->
+                            <p class="card-excerpt">{{ post.excerpt|default:post.content|striptags|truncatechars:100 }}</p>
+                            <!-- 第四行：阅读量+字数+阅读时长（带图标） -->
+                            <div class="card-meta-bottom">
+                                <span class="card-views">
+                                    <i class="fa fa-eye icon-views"></i> <!-- 阅读量 --> {{ post.views|default:0 }}次阅读
+                                </span>
+                                <span class="card-words">
+                                    <i class="fa fa-file-word icon-words"></i> <!-- 字数 --> {{ post.content|length|default:0 }}字
+                                </span>
+                                <span class="card-readtime">
+                                    <i class="fa fa-clock-o icon-readtime"></i> {{ post.read_time|default:1 }}分钟
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% empty %}
+                <!-- 如果数据库没有文章，显示提示 -->
+                <div class="no-posts">暂无文章，快去后台发布吧～</div>
+            {% endfor %}
+            {% if paginator.num_pages > 1 %}
+                <div class="pagination" style="margin: 20px 0; text-align: center;">
+                    <!-- 上一页按钮 -->
+                    {% if posts.has_previous %}
+                        <a href="?page={{ posts.previous_page_number }}" 
+                        style="padding: 8px 16px; margin: 0 4px; background: #f0f8ff; border-radius: 4px; text-decoration: none; color: #333;">
+                            上一页
+                        </a>
+                    {% else %}
+                        <span style="padding: 8px 16px; margin: 0 4px; background: #eee; border-radius: 4px; color: #999; cursor: not-allowed;">
+                            上一页
+                        </span>
+                    {% endif %}
+
+                    <!-- 页码按钮（只显示当前页±2的页码，避免页码过多） -->
+                    {% for num in posts.paginator.page_range %}
+                        {% if num >= posts.number|add:-2 and num <= posts.number|add:2 %}
+                            {% if posts.number == num %}
+                                <a href="?page={{ num }}" 
+                                style="padding: 8px 16px; margin: 0 4px; background: #409eff; color: #fff; border-radius: 4px; text-decoration: none;">
+                                    {{ num }}
+                                </a>
+                            {% else %}
+                                <a href="?page={{ num }}" 
+                                style="padding: 8px 16px; margin: 0 4px; background: #f0f8ff; border-radius: 4px; text-decoration: none; color: #333;">
+                                    {{ num }}
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- 下一页按钮 -->
+                    {% if posts.has_next %}
+                        <a href="?page={{ posts.next_page_number }}" 
+                        style="padding: 8px 16px; margin: 0 4px; background: #f0f8ff; border-radius: 4px; text-decoration: none; color: #333;">
+                            下一页
+                        </a>
+                    {% else %}
+                        <span style="padding: 8px 16px; margin: 0 4px; background: #eee; border-radius: 4px; color: #999; cursor: not-allowed;">
+                            下一页
+                        </span>
+                    {% endif %}
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

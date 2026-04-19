@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+    <title>{{ post.title }} - MkbiBlog</title>
+</head>
+<body class="detail-body-background">
+    <!-- 导航栏（复用首页结构） -->
+    <header class="site-header">
+        <div class="font-blog">MkbiBlog</div>
+        <nav class="nav-desktop">
+            <a href="{% url 'blog_home' %}" class="nav-link">主页</a>
+            <a href="{% url 'phome'%}" class="nav-link">博客</a>
+            <a href="{% url 'archive'%}" class="nav-link">归档</a>
+            <a href="{% url 'links'%}" class="nav-link">友联</a>
+            <a href="{% url 'message'%}" class="nav-link">留言</a>
+            <a href="{% url 'about'%}" class="nav-link">关于</a>
+            <a href="{% url 'blog_home' %}" class="nav-link">开往</a>
+        </nav>
+    </header>
+
+    <!-- 文章详情主体 -->
+    <div class="detail-container">
+        <!-- 文章标题 -->
+        <h1 class="post-title">{{ post.title }}</h1>
+
+        <!-- 元信息（发布时间/分类） -->
+        <div class="post-meta">
+            发布时间：{{ post.publish_time|date:"Y年m月d日" }} | 
+            分类：{{ post.category }} | 
+            阅读：{{ post.views|default:0 }}次
+        </div>
+
+        <!-- 文章正文 -->
+        <div class="post-content">
+            {{ post.content|safe }}  <!-- safe过滤器：渲染HTML格式的正文 -->
+        </div>
+
+        <!-- 文章标签 -->
+        <div class="post-tags">
+            <span>标签：</span>
+            {% for tag in post.tags.all %}
+                <a href="{% url 'tag' tag.name %}" class="post-tag">{{ tag.name }}</a>
+            {% empty %}
+                <span class="no-tag">暂无标签</span>
+            {% endfor %}
+        </div>
+
+        <!-- 评论区占位 -->
+        <div class="comment-section">
+            <h3 class="comment-title">评论区</h3>
+            <div class="comment-placeholder">
+                暂无评论，欢迎<a href="#">登录</a>后发表你的看法～
+            </div>
+        </div>
+    </div>
+</body>
+</html>
