@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资料列表 - 复习资料共享</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+        }
+        
+        /* 导航栏适配（和首页保持一致） */
+        .navbar {
+            background: white;
+            padding: 0 15px; /* 手机端内边距 */
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            height: 60px;
+            width: 100%;
+        }
+        
+        .nav-logo {
+            font-size: 16px;
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .nav-link {
+            padding: 8px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        /* 主内容区适配 */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 15px; /* 手机端减少内边距 */
+            width: 100%;
+        }
+        
+        .page-title {
+            font-size: 24px; /* 手机端标题 */
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        /* 分类筛选适配 */
+        .category-bar {
+            display: flex;
+            gap: 8px; /* 手机端缩小间距 */
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+        
+        .category-btn {
+            padding: 6px 12px; /* 手机端缩小按钮 */
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px; /* 手机端字体 */
+            transition: all 0.3s;
+            border: 1px solid #e0e0e0;
+            background: white;
+            color: #666;
+        }
+        
+        .category-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .category-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+        
+        /* 搜索框适配（手机端垂直排列） */
+        .search-box {
+            max-width: 100%; /* 手机端宽度100% */
+            margin: 0 auto 20px;
+            display: flex;
+            flex-direction: column; /* 手机端垂直排列 */
+            gap: 10px;
+            padding: 0 10px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 10px 15px; /* 手机端缩小输入框 */
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px; /* 手机端字体 */
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .search-btn {
+            padding: 10px 20px; /* 手机端缩小按钮 */
+            border-radius: 25px;
+            border: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 14px; /* 手机端字体 */
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* 资料卡片适配 */
+        .card-list {
+            display: grid;
+            gap: 15px; /* 手机端缩小卡片间距 */
+            padding: 0 10px;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px 15px; /* 手机端缩小内边距 */
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-title {
+            font-size: 16px; /* 手机端标题 */
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .card-info {
+            color: #888;
+            font-size: 13px; /* 手机端字体 */
+            margin-bottom: 15px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            padding: 6px 16px; /* 手机端缩小按钮 */
+            border-radius: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            font-size: 13px; /* 手机端字体 */
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .empty-tip {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px; /* 手机端缩小内边距 */
+            font-size: 15px; /* 手机端字体 */
+        }
+        
+        /* 电脑端适配（≥768px） */
+        @media (min-width: 768px) {
+            .navbar {
+                padding: 0 30px;
+            }
+            .nav-logo {
+                font-size: 20px;
+                margin-right: 40px;
+            }
+            .nav-link {
+                padding: 8px 20px;
+                font-size: 15px;
+            }
+            .container {
+                padding: 40px 30px;
+            }
+            .page-title {
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+            .category-bar {
+                gap: 10px;
+                margin-bottom: 30px;
+            }
+            .category-btn {
+                padding: 8px 20px;
+                font-size: 14px;
+            }
+            .search-box {
+                flex-direction: row; /* 电脑端横向排列 */
+                max-width: 600px;
+                margin-bottom: 40px;
+            }
+            .search-input {
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+            .search-btn {
+                padding: 12px 30px;
+                font-size: 15px;
+            }
+            .card-list {
+                gap: 20px;
+            }
+            .card {
+                padding: 25px;
+            }
+            .card-title {
+                font-size: 18px;
+            }
+            .card-info {
+                font-size: 14px;
+            }
+            .download-btn {
+                padding: 8px 20px;
+                font-size: 14px;
+            }
+            .empty-tip {
+                padding: 60px 20px;
+                font-size: 16px;
+            }
+        }
+        
+        /* 小屏手机（≤480px）额外优化 */
+        @media (max-width: 480px) {
+            .category-btn {
+                padding: 5px 10px;
+                font-size: 12px;
+            }
+            .card-title {
+                font-size: 15px;
+            }
+            .nav-links {
+                gap: 4px;
+            }
+            .nav-link {
+                padding: 6px 8px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <div class="navbar">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">📚 复习资料共享</a>
+            <div class="nav-links">
+                <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">首页</a>
+                <a href="/list/" class="nav-link {% if request.path == '/list/' %}active{% endif %}">资料列表</a>
+                <a href="/upload/" class="nav-link {% if request.path == '/upload/' %}active{% endif %}">上传资料</a>
+                
+                {% if user.is_authenticated %}
+                    <!-- 已登录：显示注销 + 用户名 -->
+                    <a href="/logout/" class="nav-link">注销 ({{ user.username }})</a>
+                {% else %}
+                    <!-- 未登录：显示登录 + 注册 -->
+                    <a href="/login/" class="nav-link">登录</a>
+                    <a href="/register/" class="nav-link">注册</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">复习资料列表</h1>
+
+        <!-- 分类筛选 -->
+        <div class="category-bar">
+            <a href="?{% if keyword %}keyword={{ keyword }}&{% endif %}"
+               class="category-btn {% if not current_category_id %}active{% endif %}">
+                全部
+            </a>
+            {% for cat in categories %}
+            <a href="?category={{ cat.id }}{% if keyword %}&keyword={{ keyword }}{% endif %}"
+               class="category-btn {% if current_category_id == cat.id|stringformat:'s' %}active{% endif %}">
+                {{ cat.name }}
+            </a>
+            {% endfor %}
+        </div>
+
+        <!-- 搜索框 -->
+        <form method="get" class="search-box">
+            {% if current_category_id %}
+            <input type="hidden" name="category" value="{{ current_category_id }}">
+            {% endif %}
+            <input type="text" name="keyword" value="{{ keyword }}" placeholder="输入资料标题搜索..." class="search-input">
+            <button type="submit" class="search-btn">搜索</button>
+        </form>
+
+        <!-- 资料列表 -->
+        <div class="card-list">
+            {% for material in materials %}
+            <div class="card">
+                <h3 class="card-title">{{ material.title }}</h3>
+                <div class="card-info">
+                    分类：{{ material.category.name }} | 上传时间：{{ material.upload_time|date:"Y-m-d H:i" }}
+                </div>
+                <a href="{{ material.file.url }}" target="_blank" class="download-btn">📥 下载文件</a>
+            </div>
+            {% empty %}
+            <div class="empty-tip">暂无资料，快去上传吧！</div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

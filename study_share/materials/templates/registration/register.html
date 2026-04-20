@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册 - 复习资料共享</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .register-box {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 20px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+            font-size: 14px;
+        }
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .error {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        .success {
+            color: #2ecc71;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f8fff8;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        /* 电脑端适配（≥768px） */
+        @media (min-width: 768px) {
+            .register-box {
+                padding: 40px;
+                max-width: 450px;
+            }
+            .title {
+                font-size: 24px;
+                margin-bottom: 30px;
+            }
+            input {
+                padding: 12px 15px;
+                font-size: 16px;
+            }
+            .btn {
+                padding: 14px;
+                font-size: 16px;
+            }
+            a {
+                font-size: 15px;
+            }
+            .error {
+                font-size: 14px;
+            }
+            .success {
+                font-size: 15px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-box">
+        <h2 class="title">用户注册</h2>
+        
+        <!-- 显示注册成功提示 -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="success">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- 注册表单 -->
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- 用户名 -->
+            <div class="form-group">
+                <label>用户名</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="error">{{ form.username.errors.0 }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- 密码1 -->
+            <div class="form-group">
+                <label>密码（至少8位，不能全是数字）</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <div class="error">{{ form.password1.errors.0 }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- 密码2 -->
+            <div class="form-group">
+                <label>确认密码</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <div class="error">{{ form.password2.errors.0 }}</div>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn">注册</button>
+        </form>
+
+        <div class="links">
+            已有账号？<a href="{% url 'login' %}">立即登录</a> | 
+            <a href="/">返回首页</a>
+        </div>
+    </div>
+</body>
+</html>

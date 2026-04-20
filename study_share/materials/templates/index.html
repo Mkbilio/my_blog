@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 复习资料共享</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        /* 导航栏适配（手机+电脑通用） */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0 15px; /* 手机端减少左右内边距 */
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            height: 60px;
+            width: 100%; /* 手机端宽度100% */
+        }
+        
+        .nav-logo {
+            font-size: 16px; /* 手机端缩小logo字体 */
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 15px; /* 手机端减少右侧间距 */
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 8px; /* 手机端缩小按钮间距 */
+        }
+        
+        .nav-link {
+            padding: 8px 12px; /* 手机端缩小按钮内边距 */
+            border-radius: 20px;
+            text-decoration: none;
+            color: #666;
+            font-size: 14px; /* 手机端缩小字体 */
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        /* 通知按钮特殊样式（和整体风格统一） */
+        .nav-link.notice {
+            color: #667eea;
+            font-weight: 500;
+        }
+        .nav-link.notice:hover {
+            background: #e8e9ff;
+        }
+        
+        /* 首页内容区适配 */
+        .hero {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 15px; /* 手机端减少上下内边距 */
+            text-align: center;
+            color: white;
+            width: 100%; /* 手机端宽度100% */
+        }
+        
+        .hero h1 {
+            font-size: 32px; /* 手机端缩小标题（电脑端48px） */
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero p {
+            font-size: 16px; /* 手机端缩小副标题（电脑端20px） */
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px; /* 手机端缩小按钮（电脑端14px 36px） */
+            border-radius: 30px;
+            font-size: 14px; /* 手机端缩小字体 */
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 通知按钮样式（和首页风格统一） */
+        .btn-notice {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+        .btn-notice:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+        
+        /* 媒体查询：屏幕宽度≥768px（电脑/平板）恢复原样式 */
+        @media (min-width: 768px) {
+            .navbar {
+                padding: 0 30px;
+            }
+            .nav-logo {
+                font-size: 20px;
+                margin-right: 40px;
+            }
+            .nav-link {
+                padding: 8px 20px;
+                font-size: 15px;
+            }
+            .hero {
+                padding: 100px 30px;
+            }
+            .hero h1 {
+                font-size: 48px;
+            }
+            .hero p {
+                font-size: 20px;
+            }
+            .btn {
+                padding: 14px 36px;
+                font-size: 16px;
+            }
+        }
+        
+        /* 媒体查询：屏幕宽度≤480px（小屏手机）优化 */
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column; /* 小屏手机按钮垂直排列 */
+                padding: 0 20px;
+            }
+            .nav-links {
+                gap: 4px; /* 小屏手机导航按钮间距更小 */
+            }
+            .nav-link {
+                padding: 6px 8px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">📚 复习资料共享</a>
+            <div class="nav-links">
+                <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">首页</a>
+                <a href="/list/" class="nav-link {% if request.path == '/list/' %}active{% endif %}">资料列表</a>
+                <a href="/upload/" class="nav-link {% if request.path == '/upload/' %}active{% endif %}">上传资料</a>
+                <!-- 新增：导航栏通知入口 -->
+                <a href="/notices/" class="nav-link notice {% if request.path == '/notices/' %}active{% endif %}">通知中心</a>
+                <!-- 新增：导航栏通知入口 -->
+                <a href="/blog/" class="nav-link {% if request.path == '/blog/' %}active{% endif %}">Myblog</a>
+                
+                {% if user.is_authenticated %}
+                    <!-- 已登录：显示注销 + 用户名 -->
+                    <a href="/logout/" class="nav-link">注销 ({{ user.username }})</a>
+                {% else %}
+                    <!-- 未登录：显示登录 + 注册 -->
+                    <a href="/login/" class="nav-link">登录</a>
+                    <a href="/register/" class="nav-link">注册</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1>欢迎来到复习资料共享平台</h1>
+        <p>在这里，你可以浏览、上传、下载优质学习资料，和同学们一起进步！</p>
+        <div class="hero-buttons">
+            <a href="/list/" class="btn btn-primary">浏览资料</a>
+            <a href="/upload/" class="btn btn-secondary">上传资料</a>
+            <!-- 首页按钮区通知入口（样式优化） -->
+            <a href="/notices/" class="btn btn-notice">通知中心</a>
+        </div>
+    </div>
+
+</body>
+</html>
