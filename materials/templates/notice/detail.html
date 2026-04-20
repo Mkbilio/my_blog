@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{{ post.title }} - MkbiBlog</title>
+</head>
+<body>
+    <!-- 复用导航栏 -->
+    <header class="site-header">
+        <div class="font-blog">MkbiBlog</div>
+        <nav class="nav-desktop">
+            <a href="{% url 'blog_home' %}" class="nav-link">主页</a>
+            <a href="{% url 'phome'%}" class="nav-link">博客</a>
+            <a href="{% url 'archive'%}" class="nav-link">归档</a>
+            <a href="{% url 'links'%}" class="nav-link">友联</a>
+            <a href="{% url 'message'%}" class="nav-link">留言</a>
+            <a href="{% url 'about'%}" class="nav-link">关于</a>
+            <a href="{% url 'blog_home' %}" class="nav-link">开往</a>
+        </nav>
+    </header>
+
+    <!-- 文章详情核心区域 -->
+    <div class="detail-wrap">
+        <!-- 文章标题 -->
+        <h1 class="post-title">{{ post.title }}</h1>
+        <!-- 发布时间/分类 -->
+        <div class="post-meta">
+            发布时间：{{ post.publish_time|date:"Y年m月d日" }} | 
+            分类：<a href="#">{{ post.category }}</a> | 
+            阅读量：{{ post.views|default:0 }}
+        </div>
+        <!-- 文章正文 -->
+        <div class="post-content">
+            {{ post.content|safe }} <!-- safe过滤器：渲染HTML格式正文 -->
+        </div>
+        <!-- 评论区占位 -->
+        <div class="comment-area">
+            <h3 class="comment-title">评论区</h3>
+            <div class="comment-placeholder">
+                暂无评论，快来抢沙发～
+            </div>
+        </div>
+    </div>
+</body>
+</html>

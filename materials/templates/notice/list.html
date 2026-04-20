@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}网站通知 - 校园学习平台{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h2>网站通知</h2>
+        <p class="text-muted">仅管理员可发布通知，用户可在通知下评论</p>
+    </div>
+    <!-- 仅管理员显示「发布新通知」按钮 -->
+    {% if is_admin %}
+    <div class="col-auto">
+        <a href="{% url 'notice_create' %}" class="btn btn-primary">发布新通知</a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- 通知列表 -->
+{% if notices %}
+<div class="list-group">
+    {% for notice in notices %}
+    <a href="{% url 'notice_detail' notice.id %}" class="list-group-item list-group-item-action mb-3">
+        <div class="d-flex justify-content-between">
+            <h5 class="mb-1">{{ notice.title }}</h5>
+            <small class="text-muted">{{ notice.created_at|date:"Y-m-d H:i" }}</small>
+        </div>
+        <p class="mb-1 text-truncate">{{ notice.content|striptags }}</p>
+        <small class="text-muted">发布管理员：{{ notice.created_by.username }} | 评论数：{{ notice.comments.count }}</small>
+        <!-- 仅管理员显示编辑/删除按钮 -->
+        {% if is_admin %}
+        <div class="mt-2">
+            <a href="{% url 'notice_edit' notice.id %}" class="btn btn-sm btn-warning me-2">编辑</a>
+            <a href="{% url 'notice_delete' notice.id %}" class="btn btn-sm btn-danger" onclick="return confirm('确定删除该通知？')">删除</a>
+        </div>
+        {% endif %}
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">暂无通知</div>
+{% endif %}
+{% endblock %}

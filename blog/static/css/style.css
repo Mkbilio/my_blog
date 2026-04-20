@@ -1,0 +1,519 @@
+
+html,body {
+    font-family: "Microsoft Yahei","微软雅黑",Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+body.detail-body-background{
+    background: url("/static/image/body.jpg") no-repeat center center fixed;    /* 让背景图铺满屏幕、不重复、固定不动 */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    /* 兜底浅色背景，图片加载失败也好看 */
+    background-color: #fafafa;
+    position: relative; 
+    z-index:0;
+}
+body.detail-body-background::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.6); /* 白色半透明蒙版 */
+    z-index: -1;
+  }
+h1, h2, h3, h4, h5, h6,
+p, span, a, li, div, button,
+input, textarea, select {
+  font-family: inherit; /* 继承全局字体 */
+  font-size: inherit;   /* 继承全局字号 */
+  line-height: inherit; /* 继承全局行高 */
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.font-blog{
+    /* 字体基础样式 */
+    margin-left:50px;
+    margin-right:180px;
+    font-family: "Arial Black", "Microsoft YaHei", sans-serif;
+    font-size: 28px; /* 适配左上角位置，可根据需要微调 */
+    font-weight: 900;
+    letter-spacing: 2px;
+
+    /* 核心：匹配背景的蓝紫晚霞渐变 */
+    background: linear-gradient(45deg, #a8d8ff, #f0e6ff, #ffd6a8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
+    /* 暖黄微光阴影，呼应背景里的灯光 */
+    text-shadow: 0 0 8px rgba(255, 214, 168, 0.4),
+                0 0 2px rgba(168, 216, 255, 0.3);
+
+    /* 轻微悬浮效果，增加交互感 */
+    transition: all 0.2s ease;
+}
+.font-blog:hover {
+    transform: scale(1.03);
+    text-shadow: 0 0 12px rgba(255, 214, 168, 0.6),
+                0 0 4px rgba(168, 216, 255, 0.5);
+    }
+.blog-layout{
+    padding: 0px 0px;
+    margin: 0px 0px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+.nav-desktop {
+    display: flex; /* 新增：让导航链接横向排列 */
+    flex: 1; /* 核心：占满标题和播放器之间的所有空间 */
+}
+.site-header{
+    justify-content: space-between; /* 左侧标题/菜单，右侧播放器 */
+    gap: 20px; /* 元素之间留间距，避免挤在一起 */
+    position: absolute; /* 核心！让导航栏浮起来 */
+    padding: 6px 10px;
+    margin: 0px 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    background-color: transparent; /* 背景透明 */
+    z-index: 10; /* 确保导航栏在背景图上面 */
+}
+.card-photo{
+    border-radius: 8px 0 0 8px;
+    padding: 6px 10px;
+    margin: 0px 0;
+    gap: 15px;
+    flex:1 ;
+    position: relative;
+    width: 230px;
+    min-height: 170px;
+    background-image: url("/static/image/noname1.png");
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-attachment: local;
+    background-position: center center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.test{
+    position: relative;
+    width: 100%;
+    height: 40vh;
+    min-height: 280px;
+    background-image: url("/static/image/bgc.jpg");
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-attachment: local;
+    background-position: center -210px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.test::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0; /* 蒙版从背景图底部开始 */
+    width: 100%;
+    height: 10%; /* 渐变覆盖背景图底部40%，可调整 */
+    /* 渐变：从背景图深色（透明）过渡到文章区白色（不透明） */
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+    z-index: 1; /* 蒙版在背景图上方、导航下方 */
+}
+.header-left{
+    margin: 0;
+    padding: 0px 0;
+    background-color: transparent;
+    display: flex;
+    justify-content: flex-start;
+}
+.nav-link:hover{
+    color: #fff; background: rgba(0,0,0,0.2);
+    
+}
+.nav-link {
+    font-size: 13px;
+    color: #ffffffe6;
+    text-decoration: none;
+    padding: 6px 10px;
+    margin: 0 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+    transition: color .2s, background .2s, text-shadow .3s;
+}
+/* main */
+.content{
+    justify-content: center;
+    display: flex;
+    flex: 1;
+    width: 100%;
+    padding: 10px 0;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+.c{
+    color:rgb(238, 0, 0);
+    font-size:medium;
+}
+.main-container{
+    display: flex;
+    margin: 0px auto;
+    max-width: 1200px;
+    width:90%;
+    flex:1;
+    gap: 24px; 
+}
+.first-cardtext{
+    flex:3
+}
+.article-card:hover{
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+.article-photo{
+    width:230px;
+    height:180px;
+    object-fit:cover;
+    border-radius:8px 0 0 8px;
+}
+.card-link{
+    display: flex;
+    background: #ffffff;
+    border-radius: 0px 8px 8px 0px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 0px;
+}
+.article-card .card-link {
+    flex: 1;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.article-card .p {
+    margin: 8px 0; /* 每行文字上下间距 */
+}
+.card-photo img { /* 如果是img标签，加固定尺寸 */
+    width: 100px;
+    height: 100px;
+    object-fit: cover; /* 图片不拉伸 */
+    border-radius: 4px;
+}
+.article-card .photo {
+    flex: 0 0 230px; /* 关键：固定宽度230px，和图片宽度一致 */
+    height: 180px;    /* 可选：和图片高度一致，避免容器高度错乱 */
+    display: block;   /* 防止容器有额外空白 */
+}
+.pthoto{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 6px 10px;
+    margin: 10px 0;
+    gap:15px;
+    flex:1;
+}
+.left-column{
+    display: flex;
+    padding: 6px 10px;
+    margin: 10px 0;
+    flex-direction: column;
+    flex:3;
+    gap:16px;
+}
+.right-column{
+    padding: 6px 10px;
+    margin: 10px 0;
+    flex:1;
+    height:auto;
+    min-width: 240px;
+    flex-shrink: 0;
+}
+.sidebar{
+    width: 100%;
+    background: #f8f9fa; /* 柔和背景色 */
+    border: 1px solid #e9ecef; /* 加边框，突出块感 */
+    border-radius: 8px; /* 圆角更美观 */
+    width: 280px;
+    height:25%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* 轻微阴影，更立体 */
+}
+.article-card-link {
+    text-decoration: none; /* 去掉下划线 */
+    color: inherit; /* 继承文字颜色 */
+    display: block; /* 占满一行 */
+  }
+  .article-card-link:hover .article-card {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /*  hover加阴影 */
+  }
+  .article-card {
+    display: flex;
+    margin-bottom: 20px;
+    padding: 0px;
+    background: #f0f8ff;
+    border-radius: 8px;
+    transition: box-shadow 0.3s; /* 过渡动画 */
+  }
+  .card-meta-top {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: #86909c;
+    margin-bottom: 8px;
+}
+.card-category, .card-time {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.card-category {
+    color: #409eff; /* 分类文字高亮，和参考站一致 */
+}
+
+/* 标题样式 */
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d2129;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+}
+
+/* 摘要样式 */
+.card-excerpt {
+    font-size: 14px;
+    color: #4e5969;
+    line-height: 1.6;
+    margin: 0 0 12px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 摘要最多2行 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 底部元信息（阅读量+字数+时长） */
+.card-meta-bottom {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: #86909c;
+}
+.card-views, .card-words, .card-readtime {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 图标统一样式 */
+.icon-category, .icon-time, .icon-views, .icon-words, .icon-readtime {
+    font-size: 14px;
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+}
+.navbar-player {
+    flex:auto;
+    width: auto;
+    max-width: 320px; /* 网易云播放器宽度，比之前稍宽更美观 */
+    align-self: center; /* 垂直居中，适配导航栏高度 */
+    /* 网易云风格：轻微圆角+半透黑背景 */
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 2px 8px;
+}
+/* 网易云风格audio控件 */
+.audio-player-nav {
+    display: block;
+    height: 38px; /* 网易云播放器高度 */
+    width: 100%;
+    max-width: 320px;
+    border: none;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+}
+/* 播放器面板：网易云深色半透 */
+.audio-player-nav::-webkit-media-controls-panel {
+    background-color: rgba(25, 25, 25, 0.85) !important; /* 网易云深灰黑 */
+    color: #fff !important;
+    border-radius: 18px !important; /* 网易云圆角 */
+    border: none !important;
+}
+/* 播放按钮：网易云标志性红色 */
+.audio-player-nav::-webkit-media-controls-play-button {
+    background-color: #e83e3e !important; /* 网易云红 */
+    border-radius: 50% !important; /* 圆形按钮 */
+    margin: 0 8px !important; /* 按钮间距 */
+    filter: none !important; /* 取消之前的反转，用原生红色 */
+}
+/* 播放按钮hover：加深红色 */
+.audio-player-nav::-webkit-media-controls-play-button:hover {
+    background-color: #d02e2e !important;
+}
+/* 进度条：网易云红渐变 */
+.audio-player-nav::-webkit-media-controls-timeline {
+    background: linear-gradient(to right, #e83e3e, #ff6b6b) !important;
+    border-radius: 4px !important;
+    height: 4px !important;
+    margin: 0 8px !important;
+}
+/* 音量控件：网易云风格 */
+.audio-player-nav::-webkit-media-controls-volume-slider {
+    background: #e83e3e !important;
+    border-radius: 4px !important;
+    height: 4px !important;
+}
+/* ========== Firefox适配（简化版网易云风格） ========== */
+.audio-player-nav::-moz-media-controls-panel {
+    background-color: rgba(25, 25, 25, 0.85) !important;
+    color: #fff !important;
+    border-radius: 18px !important;
+    border: none !important;
+}
+  @media (max-width: 768px) {
+    /* 1. 主容器改为纵向排列（侧边栏移到下方） */
+    .main-container {
+        flex-direction: column;
+        gap: 20px; /* 增加上下间距 */
+        width: 98%; /* 几乎占满屏幕 */
+    }
+
+    /* 2. 导航栏改为纵向，居中显示 */
+    .site-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 15px;
+        background: rgba(0,0,0,0.1); /* 增加半透明背景，提升文字可读性 */
+    }
+    .font-blog {
+        margin-right: 0px;
+        font-size: 20px; /* 标题适当放大 */
+    }
+    .nav-desktop {
+        width: 100%;
+        justify-content: center;
+    }
+    .nav-link {
+        font-size: 12px;
+        padding: 5px 10px;
+        margin: 0 2px;
+    }
+    .card-link{
+        width: 100%;
+    }
+    .article-card .photo{
+        position: relative;
+        flex:0;
+        width: 100%;
+    }
+    .article-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+    .article-photo {
+        object-fit: cover;  
+        width: 100%; /* 图片占满卡片宽度 */
+        height: 180px; /* 增加图片高度，提升视觉效果 */
+        margin-right: 0;
+        margin-bottom: 0px;
+    }
+    .photo::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0; 
+        width: 100%;
+        height: 10%; 
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        z-index: 1;
+    }
+    /* 4. 顶部banner高度适配 */
+    .test {
+        height: 20vh;
+        min-height: 150px;
+        background-position: 50% 20%; /* 进一步微调 */
+    }
+
+    /* 5. 侧边栏适配 */
+    .right-column {
+        min-width: 100%; /* 占满宽度 */
+    }
+    .sidebar {
+        padding: 20px 15px;
+    }
+
+    /* 6. 分页控件优化：只显示上一页/当前页/下一页，避免页码过多 */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    .pagination a:not(.active), .pagination span {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+    .navbar-player {
+        max-width: 220px;
+        padding: 2px 4px;
+    }
+    .audio-player-nav {
+        height: 32px;
+        max-width: 220px;
+    }
+    /* 小屏导航栏布局调整：菜单换行，播放器仍贴右侧 */
+    .site-header {
+        flex-direction: row; /* 保持横向，不换行 */
+        flex-wrap: wrap; /* 空间不足时换行 */
+        align-items: center;
+    }
+    .nav-desktop {
+        order: 3; /* 小屏时菜单排最后 */
+        width: 100%;
+        justify-content: center;
+        margin-top: 8px;
+    }
+    .font-blog {
+        flex: 1; /* 标题占左侧空间 */
+    }
+}
+
+/* 小屏手机适配（480px以下） */
+@media (max-width: 480px) {
+    .card-photo {
+        height: 150px; /* 进一步缩小图片高度 */
+    }
+    .post-title {
+        font-size: 15px; /* 进一步缩小标题 */
+    }
+    .nav-link {
+        font-size: 11px; /* 导航文字更小 */
+        padding: 4px 8px;
+    }
+}
