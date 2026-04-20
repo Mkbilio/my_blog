@@ -35,7 +35,7 @@
                         <div class="photo">
                             {% if post.photo %}
                                 <img src="{{ post.photo.url }}" alt="{{ post.title }}" 
-                                     style="width:230px;height:180px;object-fit:cover;border-radius:8px 0 0 8px;">
+                                     class="article-photo">
                             {% else %}
                                 <span style="font-size:24px;">📝</span> <!-- 无图占位 -->
                             {% endif %}

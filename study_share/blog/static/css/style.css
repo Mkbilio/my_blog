@@ -73,21 +73,13 @@ input, textarea, select {
     display: flex;
     flex-direction: column;
 }
-.phome-site-header{
-    position: absolute; /* 核心！让导航栏浮起来 */
-    padding: 6px 10px;
-    margin: 0px 0;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    box-sizing: border-box;
-    background-color: transparent; /* 背景透明 */
-
+.nav-desktop {
+    display: flex; /* 新增：让导航链接横向排列 */
+    flex: 1; /* 核心：占满标题和播放器之间的所有空间 */
 }
 .site-header{
+    justify-content: space-between; /* 左侧标题/菜单，右侧播放器 */
+    gap: 20px; /* 元素之间留间距，避免挤在一起 */
     position: absolute; /* 核心！让导航栏浮起来 */
     padding: 6px 10px;
     margin: 0px 0;
@@ -199,6 +191,12 @@ input, textarea, select {
 .article-card:hover{
     box-shadow: 0 4px 16px rgba(0,0,0,0.1);
     transform: translateY(-2px);
+}
+.article-photo{
+    width:230px;
+    height:180px;
+    object-fit:cover;
+    border-radius:8px 0 0 8px;
 }
 .card-link{
     display: flex;
@@ -337,6 +335,65 @@ input, textarea, select {
     width: 16px;
     text-align: center;
 }
+.navbar-player {
+    flex:auto;
+    width: auto;
+    max-width: 320px; /* 网易云播放器宽度，比之前稍宽更美观 */
+    align-self: center; /* 垂直居中，适配导航栏高度 */
+    /* 网易云风格：轻微圆角+半透黑背景 */
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 2px 8px;
+}
+/* 网易云风格audio控件 */
+.audio-player-nav {
+    display: block;
+    height: 38px; /* 网易云播放器高度 */
+    width: 100%;
+    max-width: 320px;
+    border: none;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+}
+/* 播放器面板：网易云深色半透 */
+.audio-player-nav::-webkit-media-controls-panel {
+    background-color: rgba(25, 25, 25, 0.85) !important; /* 网易云深灰黑 */
+    color: #fff !important;
+    border-radius: 18px !important; /* 网易云圆角 */
+    border: none !important;
+}
+/* 播放按钮：网易云标志性红色 */
+.audio-player-nav::-webkit-media-controls-play-button {
+    background-color: #e83e3e !important; /* 网易云红 */
+    border-radius: 50% !important; /* 圆形按钮 */
+    margin: 0 8px !important; /* 按钮间距 */
+    filter: none !important; /* 取消之前的反转，用原生红色 */
+}
+/* 播放按钮hover：加深红色 */
+.audio-player-nav::-webkit-media-controls-play-button:hover {
+    background-color: #d02e2e !important;
+}
+/* 进度条：网易云红渐变 */
+.audio-player-nav::-webkit-media-controls-timeline {
+    background: linear-gradient(to right, #e83e3e, #ff6b6b) !important;
+    border-radius: 4px !important;
+    height: 4px !important;
+    margin: 0 8px !important;
+}
+/* 音量控件：网易云风格 */
+.audio-player-nav::-webkit-media-controls-volume-slider {
+    background: #e83e3e !important;
+    border-radius: 4px !important;
+    height: 4px !important;
+}
+/* ========== Firefox适配（简化版网易云风格） ========== */
+.audio-player-nav::-moz-media-controls-panel {
+    background-color: rgba(25, 25, 25, 0.85) !important;
+    color: #fff !important;
+    border-radius: 18px !important;
+    border: none !important;
+}
   @media (max-width: 768px) {
     /* 1. 主容器改为纵向排列（侧边栏移到下方） */
     .main-container {
@@ -353,6 +410,7 @@ input, textarea, select {
         background: rgba(0,0,0,0.1); /* 增加半透明背景，提升文字可读性 */
     }
     .font-blog {
+        margin-right: 0px;
         font-size: 20px; /* 标题适当放大 */
     }
     .nav-desktop {
@@ -364,20 +422,36 @@ input, textarea, select {
         padding: 5px 10px;
         margin: 0 2px;
     }
-
-    /* 3. 文章卡片改为纵向（图片在上，内容在下） */
+    .card-link{
+        width: 100%;
+    }
+    .article-card .photo{
+        position: relative;
+        flex:0;
+        width: 100%;
+    }
     .article-card {
         flex-direction: column;
         align-items: flex-start;
         padding: 15px;
     }
-    .card-photo {
+    .article-photo {
+        object-fit: cover;  
         width: 100%; /* 图片占满卡片宽度 */
         height: 180px; /* 增加图片高度，提升视觉效果 */
         margin-right: 0;
-        margin-bottom: 12px;
+        margin-bottom: 0px;
     }
-
+    .photo::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0; 
+        width: 100%;
+        height: 10%; 
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        z-index: 1;
+    }
     /* 4. 顶部banner高度适配 */
     .test {
         height: 20vh;
@@ -404,6 +478,29 @@ input, textarea, select {
     .pagination a:not(.active), .pagination span {
         font-size: 12px;
         padding: 5px 10px;
+    }
+    .navbar-player {
+        max-width: 220px;
+        padding: 2px 4px;
+    }
+    .audio-player-nav {
+        height: 32px;
+        max-width: 220px;
+    }
+    /* 小屏导航栏布局调整：菜单换行，播放器仍贴右侧 */
+    .site-header {
+        flex-direction: row; /* 保持横向，不换行 */
+        flex-wrap: wrap; /* 空间不足时换行 */
+        align-items: center;
+    }
+    .nav-desktop {
+        order: 3; /* 小屏时菜单排最后 */
+        width: 100%;
+        justify-content: center;
+        margin-top: 8px;
+    }
+    .font-blog {
+        flex: 1; /* 标题占左侧空间 */
     }
 }
 

@@ -23,6 +23,16 @@
                 <a href="{% url 'about'%}" class="nav-link">关于</a>
                 <a href="{% url 'blog_home' %}" class="nav-link">开往</a>
             </nav>
+            <div class="navbar-player">
+                <audio 
+                    class="audio-player-nav"
+                    controls
+                    loop
+                    preload="metadata"
+                >
+                    <source src="https://music.163.com/song/media/outer/url?id=2738835013.mp3" type="audio/mpeg">
+                </audio>
+            </div>
         </header>
         <div class="test">
         </div>
@@ -40,7 +50,7 @@
                         <div class="photo">
                             {% if post.photo %}
                                 <img src="{{ post.photo.url }}" alt="{{ post.title }}" 
-                                     style="width:230px;height:180px;object-fit:cover;border-radius:8px 0 0 8px;">
+                                     class="article-photo">
                             {% else %}
                                 <span style="font-size:24px;">📝</span> <!-- 无图占位 -->
                             {% endif %}
